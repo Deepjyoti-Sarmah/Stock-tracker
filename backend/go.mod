@@ -4,7 +4,10 @@ go 1.23.0
 
 require (
 	github.com/caarlos0/env v3.5.0+incompatible
+	github.com/gorilla/websocket v1.5.3
 	github.com/joho/godotenv v1.5.1
+	gorm.io/driver/postgres v1.5.9
+	gorm.io/gorm v1.25.12
 )
 
 require (
@@ -18,6 +21,4 @@ require (
 	golang.org/x/crypto v0.17.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	gorm.io/driver/postgres v1.5.9 // indirect
-	gorm.io/gorm v1.25.12 // indirect
 )
