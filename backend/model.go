@@ -47,7 +47,7 @@ type BroadCastMessage struct {
 type UpdateType string
 
 const (
-	Live  UpdateType = "live"   //realtime ongoing candle
+	Live   UpdateType = "live"   //realtime ongoing candle
 	Closes UpdateType = "closes" //past candle already Closed
 )
 

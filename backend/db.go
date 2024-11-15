@@ -10,8 +10,12 @@ import (
 )
 
 func DBConnection(env *Env) *gorm.DB {
-	uri := fmt.Sprintf(`
-    host=%s user=%s dbname=%s password=%s sslmode=%s port=5432`,
+	//	uri := fmt.Sprintf(`
+	//    host=%s user=%s dbname=%s password=%s sslmode=%s port=5432`,
+	//		env.DB_HOST, env.DB_USER, env.DB_NAME, env.DB_PASSWORD, env.DB_SSLMODE,
+	//	)
+	uri := fmt.Sprintf(
+		`host=%s user=%s dbname=%s password=%s sslmode=%s port=5432`,
 		env.DB_HOST, env.DB_USER, env.DB_NAME, env.DB_PASSWORD, env.DB_SSLMODE,
 	)
 

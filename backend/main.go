@@ -30,7 +30,7 @@ var (
 
 func main() {
 	//Env config
-	env := EnvConnfig()
+	env := EnvConfig()
 
 	// db connection
 	db := DBConnection(env)
@@ -50,12 +50,12 @@ func main() {
 	http.HandleFunc("/ws", wsHandler)
 
 	//fetch all past candle for all of the symbols
-	http.HandleFunc("stocks-history", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/stocks-history", func(w http.ResponseWriter, r *http.Request) {
 		StockHistoryHandler(w, r, db)
 	})
 
 	//fetch all past candle for specific symbol
-	http.HandleFunc("stocks-candles", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/stocks-candles", func(w http.ResponseWriter, r *http.Request) {
 		CandleHandler(w, r, db)
 	})
 
@@ -149,7 +149,7 @@ func connectToFinnhub(env *Env) *websocket.Conn {
 
 // handle finnhub incomming message
 func handleFinnhubMessages(ws *websocket.Conn, db *gorm.DB) {
-	finnhubMessage := FinnhubMessage{}
+	finnhubMessage := &FinnhubMessage{}
 
 	for {
 		if err := ws.ReadJSON(finnhubMessage); err != nil {

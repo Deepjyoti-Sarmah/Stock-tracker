@@ -15,7 +15,7 @@ services:
       - application
     depends_on:
       db:
-        conditon: service_healthy
+        condition: service_healthy
     volumes:
       - .:/src/app
     command: air -c .air.toml
