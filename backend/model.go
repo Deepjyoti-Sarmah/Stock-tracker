@@ -48,7 +48,7 @@ type UpdateType string
 
 const (
 	Live  UpdateType = "live"   //realtime ongoing candle
-	Close UpdateType = "closes" //past candle already Closed
+	Closes UpdateType = "closes" //past candle already Closed
 )
 
 // converts a tempCandle to candle
