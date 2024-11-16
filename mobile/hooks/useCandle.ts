@@ -3,16 +3,16 @@ import { useEffect, useMemo, useState } from "react";
 
 interface Props {
     candles: Candle[];
-    visibleCahrt?: "candlesticks" | "line";
+    visibleChart?: "candlesticks" | "line";
 }
 
 const TRENDING_COLORS = {
     up: "green",
     down: "red",
     flat: "black"
-}
+} as const
 
-export function useCandle({ candles, visibleCahrt = "line" }: Props) {
+export function useCandle({ candles, visibleChart = "line" }: Props) {
     const newest = candles[candles.length - 1];
     const oldest = candles[0];
 
@@ -33,12 +33,12 @@ export function useCandle({ candles, visibleCahrt = "line" }: Props) {
 
         setTranding(difference > 0 ? "up" : difference < 0 ? "down" : "flat");
         setStartToEndDifferent({ amount: difference, percentage: percentage });
-    }, [candles, visibleCahrt])
+    }, [candles])
 
     const chartData = useMemo(() => candles.map(({ timestamp, ...rest }) => ({
         timestamp: new Date(timestamp).getTime(),
-        ...(visibleCahrt === "candlesticks" ? rest : { value: rest.close }),
-    })), [candles, visibleCahrt])
+        ...(visibleChart === "candlesticks" ? rest : { value: rest.close }),
+    })), [candles, visibleChart])
 
     return {
         trendingColor: TRENDING_COLORS[trending],

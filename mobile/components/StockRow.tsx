@@ -2,7 +2,12 @@ import { Candle } from "@/types/types";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { StockImage } from "./StockImage";
 import { useCandle } from "@/hooks/useCandle";
-import { LineChart, TLineChartContext, TLineChartDataProp } from "react-native-wagmi-charts"
+import {
+    LineChart,
+    LineChartProvider,
+    LineChartGradient,
+    TLineChartDataProp
+} from "react-native-wagmi-charts";
 
 interface Props {
     symbol: string;
@@ -11,31 +16,31 @@ interface Props {
 }
 
 export function StockRow({ candles, symbol, onPress }: Props) {
-
     const {
         chartData,
         newest,
         trendingColor,
         trendingSign,
         startToEndDiffetent
-    } = useCandle({ candles })
+    } = useCandle({ candles });
 
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
-            <StockImage style={styles.img} symbol={symbol} />
             <View style={styles.imageContainer}>
-                <Text style={styles.symbol}></Text>
+                <StockImage style={styles.img} symbol={symbol} />
+                <Text style={styles.symbol}>{symbol}</Text>
             </View>
-            <LineChart.Provider data={chartData as TLineChartDataProp} >
+
+            <LineChartProvider data={chartData as TLineChartDataProp}>
                 <LineChart width={100} height={100}>
                     <LineChart.Path color={trendingColor}>
-                        <LineChart.Gradient />
+                        <LineChartGradient />
                         <LineChart.HorizontalLine color={trendingColor} at={{ index: 0 }} />
                     </LineChart.Path>
                 </LineChart>
-            </LineChart.Provider>
+            </LineChartProvider>
 
-            <View style={styles.priceContainer} >
+            <View style={styles.priceContainer}>
                 <Text style={styles.price}>
                     {"$ " + newest.close.toFixed(2)}
                 </Text>
@@ -49,7 +54,7 @@ export function StockRow({ candles, symbol, onPress }: Props) {
                 </Text>
             </View>
         </TouchableOpacity>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -88,4 +93,4 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "semibold"
     }
-})
+});
