@@ -29,7 +29,7 @@ export default function StockScreen() {
 
     const fetchHistory = useCallback(async () => {
         try {
-            const response = await fetch(`${baseUrl("http")}/stock-candles?symbol=${symbol}`);
+            const response = await fetch(`${baseUrl("http")}/stocks-candles?symbol=${symbol}`);
             const data = await response.json();
             setCandles(data);
         } catch (error) {
