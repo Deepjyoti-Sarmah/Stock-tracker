@@ -40,7 +40,7 @@ type TradeData struct {
 
 // Data to write to client connected
 type BroadCastMessage struct {
-	UpdateType UpdateType `json:"updateType"` // "live" : "closes"
+	UpdateType UpdateType `json:"updateType"` // "live" | "closes"
 	Candle     *Candle    `json:"candle"`
 }
 

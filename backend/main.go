@@ -60,7 +60,7 @@ func main() {
 	})
 
 	//Serve the endpoints
-	http.ListenAndServe(fmt.Sprintf("%s", env.SERVER_PORT), nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", env.SERVER_PORT), nil)
 }
 
 // websocket endpoints to connect to the latest updates on the symbols they're subscribe to
@@ -164,6 +164,10 @@ func handleFinnhubMessages(ws *websocket.Conn, db *gorm.DB) {
 				processTradeData(&trade, db)
 			}
 		}
+
+		//Clean up old trade older than 20 min
+		cutoffTime := time.Now().Add(-20 * time.Minute)
+		db.Where("timestamp < ?", cutoffTime).Delete(&Candle{})
 	}
 }
 
@@ -216,7 +220,7 @@ func processTradeData(trade *TradeData, db *gorm.DB) {
 	//Update current tempCandle with new trade data
 	tempCandle.ClosePrice = price
 	tempCandle.Volume += volume
-	if price < tempCandle.HighPrice {
+	if price > tempCandle.HighPrice {
 		tempCandle.HighPrice = price
 	}
 	if price < tempCandle.LowPrice {
@@ -236,7 +240,7 @@ func processTradeData(trade *TradeData, db *gorm.DB) {
 // Send candle update to clients connected every 1 second at max, unless its a closed candle
 func broadcastUpdates() {
 	//set the broadcast interval to 1 sec
-	ticker := time.NewTicker(1 * time.Second)
+	ticker := time.NewTicker(500 * time.Millisecond)
 	defer ticker.Stop()
 
 	var latestUpdate *BroadCastMessage
